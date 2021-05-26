@@ -1,0 +1,4 @@
+#! /bin/sh
+# mst deinstaller
+DEST="/usr/bin/mst"
+sudo rm -f "$DEST"

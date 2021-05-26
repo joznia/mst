@@ -1,5 +1,5 @@
 # mst
-## *m*inimal *st*artup
+## **m**inimal **st**artup
 ## a system info fetch
 ### installation
 #### one command *(recommended)*
