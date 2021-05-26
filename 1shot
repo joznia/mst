@@ -16,5 +16,6 @@ echo "cloning repository to ${SRCDIR} ..." ; git clone https://github.com/joznia
 cd ${SRCDIR}
 echo "copying mst to /usr/bin ..." ; sudo cp $SRC $DEST 
 echo "setting permissions ..." ; sudo chmod 0755 $DEST
+cd ${SRCDIR}/..
 echo "removing repository..." ; rm -rf ${SRCDIR}
 
