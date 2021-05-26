@@ -34,7 +34,7 @@ else
 	DISTRO="unknown"
 	PKGM="unknown"
 	PKGC="unknown"
-	DCOL="$(tput setaf 15)"
+	DCOL="$(tput setaf 11)"
 fi
 
 EDC="\e[0m"
