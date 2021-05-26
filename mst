@@ -25,6 +25,11 @@ elif [ -x `command -v xbps-query` ]; then
 	PKGM="xbps"
 	PKGC="$(xbps-query -l | wc -l)"
 	DCOL="$(tput setaf 10)"
+elif [ -x `command -v emerge` ]; then
+	DISTRO="gentoo"
+	PKGM="emerge"
+	PKGC="$(cd /var/db/pkg/ && ls -d */* | wc -l)"
+	DCOL="$(tput setaf 13)"
 else
 	DISTRO="unknown"
 	PKGM="unknown"
