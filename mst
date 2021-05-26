@@ -15,17 +15,17 @@ elif [ -x $(command -v dnf) ] || [ -x $(command -v yum) ]; then
 	PKGM="rpm"
 	PKGC="$(rpm -qa | wc -l)"
 	DCOL="$(tput setaf 9)"
-elif [ -x `command -v zypper` ]; then
+elif [ -x $(command -v zypper) ]; then
 	DISTRO="suse"
 	PKGM="rpm"
 	PKGC="$(rpm -qa | wc -l)"
 	DCOL="$(tput setaf 10)"
-elif [ -x `command -v xbps-query` ]; then
+elif [ -x $(command -v xbps-query) ]; then
 	DISTRO="void"
 	PKGM="xbps"
 	PKGC="$(xbps-query -l | wc -l)"
 	DCOL="$(tput setaf 10)"
-elif [ -x `command -v emerge` ]; then
+elif [ -x $(command -v emerge) ]; then
 	DISTRO="gentoo"
 	PKGM="emerge"
 	PKGC="$(cd /var/db/pkg/ && ls -d */* | wc -l)"

@@ -11,11 +11,11 @@ die () {
     fi
 }
 
-echo "installing mst..."
+echo "installing mst ..."
 echo "cloning repository to ${SRCDIR} ..." ; git clone https://github.com/joznia/mst.git ${SRCDIR} > /dev/null 2>&1
 cd ${SRCDIR}
 echo "copying mst to /usr/bin ..." ; sudo cp $SRC $DEST 
 echo "setting permissions ..." ; sudo chmod 0755 $DEST
 cd ${SRCDIR}/..
-echo "removing repository..." ; rm -rf ${SRCDIR}
+echo "removing repository ..." ; rm -rf ${SRCDIR}
 
