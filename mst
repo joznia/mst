@@ -1,0 +1,57 @@
+#! /bin/sh
+# Minimal STartup
+if   [ -x $(command -v pacman-key) ]; then
+	DISTRO="arch"
+	PKGM="alpm"
+	PKGC="$(pacman -Qq --color never | wc -l)"
+	DCOL="$(tput setaf 12)"
+elif [ -x $(command -v apt-cache) ]; then
+	DISTRO="debian"
+	PKGM="dpkg"
+	PKGC="$(dpkg -l | grep -c '^?i' | wc -l)"
+	DCOL="$(tput setaf 13)"
+elif [ -x $(command -v dnf) ] || [ -x $(command -v yum) ]; then
+	DISTRO="redhat"
+	PKGM="rpm"
+	PKGC="$(rpm -qa | wc -l)"
+	DCOL="$(tput setaf 9)"
+elif [ -x `command -v zypper` ]; then
+	DISTRO="suse"
+	PKGM="rpm"
+	PKGC="$(rpm -qa | wc -l)"
+	DCOL="$(tput setaf 10)"
+elif [ -x `command -v xbps-query` ]; then
+	DISTRO="void"
+	PKGM="xbps"
+	PKGC="$(xbps-query -l | wc -l)"
+	DCOL="$(tput setaf 10)"
+else
+	DISTRO="unknown"
+	PKGM="unknown"
+	PKGC="unknown"
+	DCOL="$(tput setaf 15)"
+fi
+
+EDC="\e[0m"
+WI="$(tput setaf 15)"
+STC1="$(tput setaf 14)"
+STC2="$(tput setaf 11)"
+STC3="$(tput setaf 13)"
+STC4="$(tput setaf 10)"
+STC5="$(tput setaf 12)"
+STC6="$(tput setaf 4)"
+STC7="$(tput setaf 10)"
+main() {
+	cat <<- EOF
+	this is $STC1$(uname -n)$WI
+	distro: $DCOL$DISTRO$WI
+	packages: $DCOL$PKGC$WI ($DCOL$PKGM$WI)
+	kernel ver: $STC4$(uname -r | sed s/-/\ /g | awk '{print $1 }')$WI
+	logged in as: $STC2$(whoami)$WI
+	working directory: $STC3$PWD$WI
+	EOF
+	echo -e "shell: $STC7$(echo $SHELL | sed s/\\//\ /g | awk '{print $(NF)}')$EDC"
+	printf "\e[m\n"
+}
+
+main
