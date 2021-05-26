@@ -1,5 +1,4 @@
 #! /bin/sh
-
 # mst AIO installer
 
 SRCDIR="${HOME}/mst-1shot"
