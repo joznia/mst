@@ -1,39 +1,76 @@
 #! /bin/sh
 # Minimal STartup
-if   [ -x $(command -v pacman-key) ]; then
+
+cmde() {
+	type "$1" &> /dev/null
+}
+
+DISTRO="unknown"
+PKGM="unknown"
+PKGC="unknown"
+DCOL="$(tput setaf 11)"
+
+cmde "pacman-key"
+if [ $? -eq 0 ]; then
 	DISTRO="arch"
 	PKGM="alpm"
 	PKGC="$(pacman -Qq --color never | wc -l)"
 	DCOL="$(tput setaf 12)"
-elif [ -x $(command -v apt-cache) ]; then
+fi
+
+cmde "apt-cache"
+if [ $? -eq 0 ]; then
 	DISTRO="debian"
 	PKGM="dpkg"
 	PKGC="$(dpkg -l | grep -c '^?i' | wc -l)"
 	DCOL="$(tput setaf 13)"
-elif [ -x $(command -v dnf) ] || [ -x $(command -v yum) ]; then
+fi
+
+cmde "yum"
+if [ $? -eq 0 ]; then
 	DISTRO="redhat"
 	PKGM="rpm"
 	PKGC="$(rpm -qa | wc -l)"
 	DCOL="$(tput setaf 9)"
-elif [ -x $(command -v zypper) ]; then
+fi
+
+cmde "zypper"
+if [ $? -eq 0 ]; then
 	DISTRO="suse"
 	PKGM="rpm"
 	PKGC="$(rpm -qa | wc -l)"
 	DCOL="$(tput setaf 10)"
-elif [ -x $(command -v xbps-query) ]; then
+fi
+
+cmde "xbps-query"
+if [ $? -eq 0 ]; then
 	DISTRO="void"
 	PKGM="xbps"
 	PKGC="$(xbps-query -l | wc -l)"
 	DCOL="$(tput setaf 10)"
-elif [ -x $(command -v emerge) ]; then
+fi
+
+cmde "emerge"
+if [ $? -eq 0 ]; then
 	DISTRO="gentoo"
 	PKGM="emerge"
 	PKGC="$(cd /var/db/pkg/ && ls -d */* | wc -l)"
 	DCOL="$(tput setaf 13)"
-else
-	DISTRO="unknown"
-	PKGM="unknown"
-	PKGC="unknown"
+fi
+
+cmde "port"
+if [ $? -eq 0 ]; then
+	DISTRO="macos"
+	PKGM="macports"
+	PKGC="$(port echo installed | wc -l | sed 's/^[ \t]*//')"
+	DCOL="$(tput setaf 11)"
+fi
+
+cmde "brew"
+if [ $? -eq 0 ]; then
+	DISTRO="macos"
+	PKGM="homebrew"
+	PKGC="$(brew list | wc -l)"
 	DCOL="$(tput setaf 11)"
 fi
 
@@ -55,7 +92,7 @@ main() {
 	logged in as: $STC2$(whoami)$WI
 	working directory: $STC3$PWD$WI
 	EOF
-	echo -e "shell: $STC7$(echo $SHELL | sed s/\\//\ /g | awk '{print $(NF)}')$EDC"
+	echo "shell: $STC7$(echo $SHELL | sed s/\\//\ /g | awk '{print $(NF)}')"
 	printf "\e[m\n"
 }
 
